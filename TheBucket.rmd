@@ -1,0 +1,49 @@
+---
+title: "TheBucket"
+author: "Dr K"
+date: "September 13, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Resampling as a strategy
+
+One of the easiest to understand strategys to understand a binomial distribution is to simply sample many times from a large population. Then collect all the results and summarize them. This should remind you of what an insurance company might do to decide what rate to charge drivers who fall in various risk groups.   
+
+### An Example  
+In the myopenmath text it was stated that the probability of an 18-20 year old of having an alchoholic drink in a given year was .697. Then a question is What is the probability that in a random sample of 10 people from that group that exactly 6 of them had an alcholic drink?
+
+### We build a large (100000 people) sample  
+
+```{r}
+popD=rep(1,times=69700)
+popND=rep(0,times=30300)
+totpop=c(popD,popND) 
+```
+
+Now totpop has the property that a randomly selected member has a probability of .697 of being 1.  
+
+### We now repeatedly sample 10 elements and save in a growing array how many were one.
+
+```{r}
+savework<-numeric()
+for (i in 1:100000) {
+  take10 <- sample(totpop,size=10,replace=TRUE)
+  savework[i]=sum(take10)
+}
+```
+at this point we simply summarize our array savework.
+
+```{r}
+table(savework)
+```
+
+### Compare with dbinom  
+
+```{r}
+dbinom(6,10,prob=.697)
+```
+
