@@ -88,3 +88,8 @@ sum(table(savework)[4:6])/100000
 ```{r}
 sum(dbinom(3:5,100,prob=.02))
 ```
+
+# One Final Note
+## Each time you re-knit this document your answers will change!
+
+This is totally what you would expect -- Why?
