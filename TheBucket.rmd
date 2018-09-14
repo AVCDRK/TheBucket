@@ -47,3 +47,44 @@ table(savework)
 dbinom(6,10,prob=.697)
 ```
 
+## Now use that as a template
+
+We are going to change problem and adapt technique  
+Assume we have a machine that produces parts with a defect rate of 2 percent.  We ship our parts in boxes of 100 parts. What is the chances that a randomly chosen box has 3 to 5 defective parts in it?   
+
+### We build a large (100000 unit) sample 
+
+```{r}
+popD=rep(1,times=2000)
+popND=rep(0,times=98000)
+totpop=c(popD,popND) 
+```
+
+Now totpop has the property that a randomly selected member has a probability of .02 of being 1.  
+
+### We now repeatedly sample 100 elements and save in a growing array how many were one.
+
+```{r}
+savework<-numeric()
+for (i in 1:100000) {
+  take100 <- sample(totpop,size=100,replace=TRUE)
+  savework[i]=sum(take100)
+}
+```
+at this point we simply summarize our array savework.
+
+```{r}
+table(savework)
+```
+
+Now add up the elements in the table
+
+```{r}
+sum(table(savework)[4:6])/100000
+```
+
+### Compare with dbinom  
+
+```{r}
+sum(dbinom(3:5,100,prob=.02))
+```
